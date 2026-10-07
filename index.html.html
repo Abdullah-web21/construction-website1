@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex Prime Construction | Building the Future</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandRed: {
+                            DEFAULT: '#D32F2F',
+                            bright: '#E53935',
+                            dark: '#B71C1C'
+                        },
+                        brandBlue: {
+                            DEFAULT: '#1976D2',
+                            dark: '#0D47A1',
+                            light: '#42A5F5'
+                        },
+                        brandDark: {
+                            DEFAULT: '#121212',
+                            card: '#1E1E1E',
+                            surface: '#212121'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #121212;
+            color: #FFFFFF;
+            overflow-x: hidden;
+        }
+
+        /* Scroll Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Glassmorphism utility */
+        .glass-panel {
+            background: rgba(30, 30, 30, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Hero Text Typewriter Glow */
+        .hero-glow {
+            text-shadow: 0 0 20px rgba(211, 47, 47, 0.5);
+        }
+
+        /* Page View Switcher Animations */
+        .page-section {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+        .page-section.active-page {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Modal backdrop transition */
+        .modal-blur {
+            backdrop-filter: blur(8px);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121212;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1976D2;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D32F2F;
+        }
+    </style>
+</head>
+<body class="bg-brandDark text-white antialiased selection:bg-brandRed selection:text-white flex flex-col min-h-screen">
+
+    <!-- STICKY HEADER NAVBAR -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-gray-800 transition-all duration-300" id="mainHeader">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand Logo -->
+                <a href="#home" onclick="navigateTo('home')" class="flex items-center space-x-3 group cursor-pointer">
+                    <div class="w-11 h-11 bg-gradient-to-br from-brandRed to-brandBlue flex items-center justify-center rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300">
+                        <i class="fa-solid font-black text-xl text-white fa-helmet-safety"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-xl font-extrabold tracking-wider uppercase text-white">APEX<span class="text-brandRed">PRIME</span></span>
+                        <span class="text-xs text-brandBlue tracking-widest font-semibold uppercase">Construction</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <button onclick="navigateTo('home')" id="nav-home" class="nav-link font-medium text-sm text-brandRed hover:text-brandRed transition-colors duration-200 py-2 border-b-2 border-brandRed">Home</button>
+                    <button onclick="navigateTo('about')" id="nav-about" class="nav-link font-medium text-sm text-gray-300 hover:text-white transition-colors duration-200 py-2 border-b-2 border-transparent">About Us</button>
+                    <button onclick="navigateTo('home', 'services-section')" class="font-medium text-sm text-gray-300 hover:text-white transition-colors duration-200 py-2">Services</button>
+                    <button onclick="navigateTo('home', 'projects-section')" class="font-medium text-sm text-gray-300 hover:text-white transition-colors duration-200 py-2">Projects</button>
+                    <button onclick="navigateTo('contact')" id="nav-contact" class="nav-link font-medium text-sm text-gray-300 hover:text-white transition-colors duration-200 py-2 border-b-2 border-transparent">Contact</button>
+                </nav>
+
+                <!-- Action Button & Mobile Toggle -->
+                <div class="flex items-center space-x-4">
+                    <button onclick="openQuoteModal()" class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 rounded-lg text-sm font-bold text-white bg-gradient-to-r from-brandRed to-brandRed-bright hover:from-brandRed-dark hover:to-brandRed shadow-lg shadow-brandRed/30 hover:shadow-brandRed/50 transform hover:-translate-y-0.5 transition-all duration-200">
+                        <i class="fa-solid fa-calculator mr-2"></i> Get Free Quote
+                    </button>
+                    
+                    <!-- Mobile Hamburger Button -->
+                    <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-gray-800 focus:outline-none" aria-label="Toggle Navigation">
+                        <i class="fa-solid fa-bars text-2xl" id="menuIcon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Navigation Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-brandDark-surface border-b border-gray-800 transition-all duration-300">
+            <div class="px-4 pt-3 pb-6 space-y-3">
+                <button onclick="navigateTo('home'); toggleMobileMenu();" class="block w-full text-left px-4 py-2.5 rounded-md text-base font-medium text-white hover:bg-gray-800">Home</button>
+                <button onclick="navigateTo('about'); toggleMobileMenu();" class="block w-full text-left px-4 py-2.5 rounded-md text-base font-medium text-gray-300 hover:bg-gray-800">About Us</button>
+                <button onclick="navigateTo('home', 'services-section'); toggleMobileMenu();" class="block w-full text-left px-4 py-2.5 rounded-md text-base font-medium text-gray-300 hover:bg-gray-800">Services</button>
+                <button onclick="navigateTo('home', 'projects-section'); toggleMobileMenu();" class="block w-full text-left px-4 py-2.5 rounded-md text-base font-medium text-gray-300 hover:bg-gray-800">Projects</button>
+                <button onclick="navigateTo('contact'); toggleMobileMenu();" class="block w-full text-left px-4 py-2.5 rounded-md text-base font-medium text-gray-300 hover:bg-gray-800">Contact</button>
+                <div class="pt-2">
+                    <button onclick="openQuoteModal(); toggleMobileMenu();" class="w-full py-3 rounded-lg text-center font-bold text-white bg-brandRed hover:bg-brandRed-dark transition duration-200">
+                        <i class="fa-solid fa-calculator mr-2"></i> Get Free Quote
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER WITH SPA PAGES -->
+    <main class="flex-grow">
+
+        <!-- ============================================== -->
+        <!-- HOME PAGE SECTION                              -->
+        <!-- ============================================== -->
+        <div id="page-home" class="page-section active-page">
+            
+            <!-- Hero Section -->
+            <section class="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-brandDark">
+                <!-- Hero Background Image & Overlay -->
+                <div class="absolute inset-0 z-0">
+                    <img src="https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?auto=format&fit=crop&w=1920&q=80" alt="Construction Crane Blueprint" class="w-full h-full object-cover object-center filter brightness-40 scale-105 animate-pulse" style="animation-duration: 12s;">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brandDark via-brandDark/70 to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-brandDark/90 via-brandDark/50 to-transparent"></div>
+                </div>
+
+                <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
+                    <div class="max-w-3xl space-y-6">
+                        <div class="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-brandRed/20 border border-brandRed/40 text-brandRed font-semibold text-xs uppercase tracking-widest">
+                            <span class="w-2 h-2 rounded-full bg-brandRed animate-ping"></span>
+                            <span>Engineered for Excellence</span>
+                        </div>
+                        
+                        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight">
+                            Building Tomorrow's <br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-brandRed via-red-400 to-brandBlue hero-glow">
+                                Infrastructure Today
+                            </span>
+                        </h1>
+                        
+                        <p class="text-lg sm:text-xl text-gray-300 max-w-2xl font-normal leading-relaxed">
+                            Premier commercial, industrial, and residential construction solutions delivered with safety, precision, and uncompromised quality standards.
+                        </p>
+
+                        <div class="pt-4 flex flex-col sm:flex-row gap-4">
+                            <button onclick="navigateTo('home', 'services-section')" class="px-8 py-4 rounded-xl font-bold text-base text-white bg-brandRed hover:bg-brandRed-dark shadow-xl shadow-brandRed/30 transition duration-300 text-center flex items-center justify-center group">
+                                Explore Our Services
+                                <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                            </button>
+                            <button onclick="openQuoteModal()" class="px-8 py-4 rounded-xl font-bold text-base text-white bg-brandBlue/20 border border-brandBlue hover:bg-brandBlue/40 shadow-lg shadow-brandBlue/20 transition duration-300 text-center flex items-center justify-center">
+                                Request Custom Quote
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Floating Bottom Accent Ribbon -->
+                <div class="absolute bottom-0 inset-x-0 h-1.5 bg-gradient-to-r from-brandRed via-brandBlue to-brandRed"></div>
+            </section>
+
+            <!-- Key Statistics Counter Section -->
+            <section class="py-12 bg-brandDark-card border-y border-gray-800 relative z-20">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center" id="stats-counter-section">
+                        <div class="p-4 reveal">
+                            <div class="text-3xl sm:text-5xl font-black text-brandRed mb-2 flex justify-center items-center">
+                                <span class="counter-number" data-target="450">0</span>+
+                            </div>
+                            <p class="text-xs sm:text-sm font-semibold uppercase tracking-wider text-gray-400">Projects Completed</p>
+                        </div>
+                        <div class="p-4 reveal">
+                            <div class="text-3xl sm:text-5xl font-black text-brandBlue mb-2 flex justify-center items-center">
+                                <span class="counter-number" data-target="25">0</span>+
+                            </div>
+                            <p class="text-xs sm:text-sm font-semibold uppercase tracking-wider text-gray-400">Years Experience</p>
+                        </div>
+                        <div class="p-4 reveal">
+                            <div class="text-3xl sm:text-5xl font-black text-brandRed mb-2 flex justify-center items-center">
+                                <span class="counter-number" data-target="120">0</span>+
+                            </div>
+                            <p class="text-xs sm:text-sm font-semibold uppercase tracking-wider text-gray-400">Expert Staff</p>
+                        </div>
+                        <div class="p-4 reveal">
+                            <div class="text-3xl sm:text-5xl font-black text-brandBlue mb-2 flex justify-center items-center">
+                                <span class="counter-number" data-target="99">0</span>%
+                            </div>
+                            <p class="text-xs sm:text-sm font-semibold uppercase tracking-wider text-gray-400">Client Satisfaction</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Services Section -->
+            <section id="services-section" class="py-24 bg-brandDark relative">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                        <h2 class="text-xs font-bold uppercase tracking-widest text-brandRed mb-2">Our Capabilities</h2>
+                        <p class="text-3xl sm:text-4xl font-extrabold text-white">Comprehensive Construction Solutions</p>
+                        <div class="w-20 h-1.5 bg-brandBlue mx-auto mt-4 rounded-full"></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <!-- Service Card 1 -->
+                        <div class="bg-brandDark-card p-8 rounded-2xl border border-gray-800 hover:border-brandRed/50 transition-all duration-300 hover:-translate-y-2 group shadow-xl reveal">
+                            <div class="w-14 h-14 bg-brandRed/10 rounded-xl flex items-center justify-center text-brandRed text-2xl mb-6 group-hover:bg-brandRed group-hover:text-white transition-colors duration-300">
+                                <i class="fa-solid fa-city"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-3">General Contracting</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed mb-4">Full turnkey management of large-scale construction ventures from ground breaking to final handover.</p>
+                            <a href="#contact" onclick="navigateTo('contact')" class="text-brandBlue font-semibold text-sm flex items-center group-hover:text-brandRed transition-colors">
+                                Learn More <i class="fa-solid fa-chevron-right ml-1 text-xs"></i>
+                            </a>
+                        </div>
+
+                        <!-- Service Card 2 -->
+                        <div class="bg-brandDark-card p-8 rounded-2xl border border-gray-800 hover:border-brandBlue/50 transition-all duration-300 hover:-translate-y-2 group shadow-xl reveal">
+                            <div class="w-14 h-14 bg-brandBlue/10 rounded-xl flex items-center justify-center text-brandBlue text-2xl mb-6 group-hover:bg-brandBlue group-hover:text-white transition-colors duration-300">
+                                <i class="fa-solid fa-building"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-3">Commercial Construction</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed mb-4">High-rise offices, retail centers, and industrial facilities built to highest safety standards.</p>
+                            <a href="#contact" onclick="navigateTo('contact')" class="text-brandBlue font-semibold text-sm flex items-center group-hover:text-brandRed transition-colors">
+                                Learn More <i class="fa-solid fa-chevron-right ml-1 text-xs"></i>
+                            </a>
+                        </div>
+
+                        <!-- Service Card 3 -->
+                        <div class="bg-brandDark-card p-8 rounded-2xl border border-gray-800 hover:border-brandRed/50 transition-all duration-300 hover:-translate-y-2 group shadow-xl reveal">
+                            <div class="w-14 h-14 bg-brandRed/10 rounded-xl flex items-center justify-center text-brandRed text-2xl mb-6 group-hover:bg-brandRed group-hover:text-white transition-colors duration-300">
+                                <i class="fa-solid fa-hammer"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-3">Renovation & Fit-Out</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed mb-4">Transforming existing structures with interior fit-outs, modern structural upgrades, and retrofits.</p>
+                            <a href="#contact" onclick="navigateTo('contact')" class="text-brandBlue font-semibold text-sm flex items-center group-hover:text-brandRed transition-colors">
+                                Learn More <i class="fa-solid fa-chevron-right ml-1 text-xs"></i>
+                            </a>
+                        </div>
+
+                        <!-- Service Card 4 -->
+                        <div class="bg-brandDark-card p-8 rounded-2xl border border-gray-800 hover:border-brandBlue/50 transition-all duration-300 hover:-translate-y-2 group shadow-xl reveal">
+                            <div class="w-14 h-14 bg-brandBlue/10 rounded-xl flex items-center justify-center text-brandBlue text-2xl mb-6 group-hover:bg-brandBlue group-hover:text-white transition-colors duration-300">
+                                <i class="fa-solid fa-drafting-compass"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-3">Architectural Design</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed mb-4">Comprehensive 3D BIM modeling, architectural drafting, and eco-friendly structural engineering.</p>
+                            <a href="#contact" onclick="navigateTo('contact')" class="text-brandBlue font-semibold text-sm flex items-center group-hover:text-brandRed transition-colors">
+                                Learn More <i class="fa-solid fa-chevron-right ml-1 text-xs"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Featured Projects Section -->
+            <section id="projects-section" class="py-24 bg-brandDark-surface relative">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                        <div class="reveal">
+                            <h2 class="text-xs font-bold uppercase tracking-widest text-brandRed mb-2">Portfolio</h2>
+                            <p class="text-3xl sm:text-4xl font-extrabold text-white">Featured Projects</p>
+                        </div>
+                        
+                        <!-- Filter Tabs -->
+                        <div class="flex flex-wrap gap-2 mt-6 md:mt-0 reveal">
+                            <button onclick="filterProjects('all')" class="project-filter-btn active-filter px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider bg-brandRed text-white">All</button>
+                            <button onclick="filterProjects('commercial')" class="project-filter-btn px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider bg-brandDark-card text-gray-400 hover:text-white">Commercial</button>
+                            <button onclick="filterProjects('residential')" class="project-filter-btn px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider bg-brandDark-card text-gray-400 hover:text-white">Residential</button>
+                            <button onclick="filterProjects('industrial')" class="project-filter-btn px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider bg-brandDark-card text-gray-400 hover:text-white">Industrial</button>
+                        </div>
+                    </div>
+
+                    <!-- Projects Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
+                        <!-- Project 1 -->
+                        <div class="project-item commercial group relative rounded-2xl overflow-hidden bg-brandDark-card border border-gray-800 shadow-xl reveal">
+                            <div class="h-64 overflow-hidden relative">
+                                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80" alt="Metropolitan Tower" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-brandDark via-transparent to-transparent opacity-80"></div>
+                            </div>
+                            <div class="p-6 relative">
+                                <span class="text-xs font-bold text-brandBlue uppercase tracking-wider">Commercial Sky Tower</span>
+                                <h3 class="text-xl font-bold text-white mt-1">Apex Skyline Tower</h3>
+                                <p class="text-gray-400 text-sm mt-2 line-clamp-2">A 42-story eco-certified modern commercial office complex in central business area.</p>
+                                <button onclick="openProjectModal('Apex Skyline Tower', 'Commercial Sky Tower', 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80', 'Constructed in 24 months, this 42-story tower features state-of-the-art earthquake mitigation, LEED Gold certification, and dynamic glass facade technology.')" class="mt-4 px-4 py-2 rounded-lg bg-brandBlue/20 text-brandBlue font-semibold text-xs hover:bg-brandBlue hover:text-white transition-colors duration-200">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Project 2 -->
+                        <div class="project-item residential group relative rounded-2xl overflow-hidden bg-brandDark-card border border-gray-800 shadow-xl reveal">
+                            <div class="h-64 overflow-hidden relative">
+                                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" alt="Luxury Residence" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-brandDark via-transparent to-transparent opacity-80"></div>
+                            </div>
+                            <div class="p-6 relative">
+                                <span class="text-xs font-bold text-brandRed uppercase tracking-wider">Luxury Residential</span>
+                                <h3 class="text-xl font-bold text-white mt-1">Grand Crest Villa Estate</h3>
+                                <p class="text-gray-400 text-sm mt-2 line-clamp-2">Custom modern architectural residence with cantilevered infinity pools and smart home integration.</p>
+                                <button onclick="openProjectModal('Grand Crest Villa Estate', 'Luxury Residential', 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80', 'Exclusive modern residential development featuring custom structural steel accents, full home automation, and energy-neutral solar array roofs.')" class="mt-4 px-4 py-2 rounded-lg bg-brandRed/20 text-brandRed font-semibold text-xs hover:bg-brandRed hover:text-white transition-colors duration-200">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Project 3 -->
+                        <div class="project-item industrial group relative rounded-2xl overflow-hidden bg-brandDark-card border border-gray-800 shadow-xl reveal">
+                            <div class="h-64 overflow-hidden relative">
+                                <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80" alt="Logistics Center" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-gradient-to-t from-brandDark via-transparent to-transparent opacity-80"></div>
+                            </div>
+                            <div class="p-6 relative">
+                                <span class="text-xs font-bold text-brandBlue uppercase tracking-wider">Industrial Logistics</span>
+                                <h3 class="text-xl font-bold text-white mt-1">Vanguard Logistics Hub</h3>
+                                <p class="text-gray-400 text-sm mt-2 line-clamp-2">500,000 sq ft automated industrial distribution terminal built for maximum efficiency.</p>
+                                <button onclick="openProjectModal('Vanguard Logistics Hub', 'Industrial Logistics', 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&q=80', 'Massive logistics complex featuring high-tolerance concrete flooring, heavy automated loading docks, and integrated corporate offices.')" class="mt-4 px-4 py-2 rounded-lg bg-brandBlue/20 text-brandBlue font-semibold text-xs hover:bg-brandBlue hover:text-white transition-colors duration-200">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Testimonials & Quote Calculator Section -->
+            <section class="py-24 bg-brandDark relative">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                        
+                        <!-- Testimonial Slider Mock -->
+                        <div class="reveal">
+                            <h2 class="text-xs font-bold uppercase tracking-widest text-brandRed mb-2">Testimonials</h2>
+                            <h3 class="text-3xl font-extrabold text-white mb-6">What Our Clients Say</h3>
+                            
+                            <div class="bg-brandDark-card p-8 rounded-2xl border border-gray-800 shadow-2xl relative">
+                                <i class="fa-solid fa-quote-left text-5xl text-brandRed/20 absolute top-6 right-6"></i>
+                                <div class="flex text-amber-400 mb-4 text-sm">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <p class="text-gray-300 italic text-base leading-relaxed mb-6">
+                                    "Apex Prime delivered our 12-story commercial project 3 weeks ahead of deadline without compromising a single safety standard. Their transparent communication and engineering capabilities are unmatched."
+                                </p>
+                                <div class="flex items-center space-x-4">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80" alt="Client CEO" class="w-12 h-12 rounded-full object-cover border-2 border-brandBlue">
+                                    <div>
+                                        <h4 class="font-bold text-white text-sm">Marcus Vance</h4>
+                                        <p class="text-xs text-gray-400">CEO, Horizon Real Estate Group</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Estimator Tool -->
+                        <div class="bg-brandDark-card p-8 rounded-2xl border border-gray-800 shadow-2xl reveal">
+                            <h3 class="text-2xl font-bold text-white mb-2 flex items-center">
+                                <i class="fa-solid fa-calculator text-brandRed mr-3"></i> Instant Project Estimator
+                            </h3>
+                            <p class="text-gray-400 text-xs mb-6">Get an approximate structural estimate in seconds.</p>
+
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-300 mb-1">Project Type</label>
+                                    <select id="calcType" onchange="calculateEstimate()" class="w-full bg-brandDark border border-gray-700 rounded-lg p-3 text-sm text-white focus:border-brandRed focus:outline-none">
+                                        <option value="120">Commercial Construction ($120/sqft)</option>
+                                        <option value="95">Residential Building ($95/sqft)</option>
+                                        <option value="75">Industrial Facility ($75/sqft)</option>
+                                        <option value="50">Renovation & Interior ($50/sqft)</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-xs font-semibold text-gray-300 mb-1">
+                                        <span>Estimated Area (Sq. Ft.)</span>
+                                        <span id="areaVal" class="text-brandBlue font-bold">2,500 sq ft</span>
+                                    </div>
+                                    <input type="range" id="calcArea" min="500" max="20000" step="250" value="2500" oninput="calculateEstimate()" class="w-full h-2 bg-brandDark rounded-lg appearance-none cursor-pointer accent-brandRed">
+                                </div>
+
+                                <div class="pt-4 border-t border-gray-800">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-400 font-medium">Estimated Budget:</span>
+                                        <span id="calcTotal" class="text-2xl font-black text-brandRed">$300,000</span>
+                                    </div>
+                                    <p class="text-[10px] text-gray-500 mt-1">*Rough estimate only. Contact us for formal engineering assessment.</p>
+                                </div>
+
+                                <button onclick="openQuoteModal()" class="w-full py-3 bg-brandBlue hover:bg-brandBlue-dark text-white font-bold rounded-lg transition-colors text-sm mt-2">
+                                    Request Formal Blueprint & Detailed Quote
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- ABOUT PAGE SECTION                             -->
+        <!-- ============================================== -->
+        <div id="page-about" class="page-section">
+            
+            <!-- About Hero Header -->
+            <section class="relative py-20 bg-brandDark-surface border-b border-gray-800">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <h1 class="text-4xl sm:text-5xl font-black text-white mb-4">Pioneering <span class="text-brandRed">Engineering</span> Excellence</h1>
+                    <p class="text-gray-400 max-w-2xl mx-auto text-base">Over two decades of shaping skylines with integrity, technological innovation, and unyielding safety standards.</p>
+                </div>
+            </section>
+
+            <!-- Mission & Vision -->
+            <section class="py-20 bg-brandDark">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                        <div class="space-y-6">
+                            <span class="text-xs font-bold uppercase tracking-widest text-brandBlue">Our Purpose</span>
+                            <h2 class="text-3xl font-extrabold text-white">Delivering World-Class Infrastructure With Zero Compromise</h2>
+                            <p class="text-gray-400 leading-relaxed text-sm">
+                                Founded in 2001, Apex Prime Construction has grown from a local contractor into a national leader in multi-disciplinary construction. We blend cutting-edge BIM modeling, sustainable building materials, and veteran engineering craft.
+                            </p>
+                            
+                            <!-- Core Value Badges -->
+                            <div class="grid grid-cols-2 gap-4 pt-4">
+                                <div class="p-4 bg-brandDark-card rounded-xl border border-gray-800">
+                                    <i class="fa-solid fa-shield-halved text-brandRed text-2xl mb-2"></i>
+                                    <h4 class="font-bold text-white text-sm">Safety First</h4>
+                                    <p class="text-xs text-gray-400 mt-1">Rigorous safety compliance on every site.</p>
+                                </div>
+                                <div class="p-4 bg-brandDark-card rounded-xl border border-gray-800">
+                                    <i class="fa-solid fa-award text-brandBlue text-2xl mb-2"></i>
+                                    <h4 class="font-bold text-white text-sm">ISO Certified</h4>
+                                    <p class="text-xs text-gray-400 mt-1">International standards of quality assurance.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80" alt="Engineers reviewing blueprints" class="rounded-2xl shadow-2xl border border-gray-800">
+                            <div class="absolute -bottom-6 -left-6 bg-brandRed text-white p-6 rounded-2xl shadow-xl hidden sm:block">
+                                <p class="text-3xl font-black">25+</p>
+                                <p class="text-xs uppercase font-semibold">Years of Industry Leadership</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Interactive History Timeline -->
+            <section class="py-20 bg-brandDark-surface">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-2xl mx-auto mb-16">
+                        <h2 class="text-xs font-bold uppercase tracking-widest text-brandRed mb-2">Growth Journey</h2>
+                        <p class="text-3xl font-extrabold text-white">Key Company Milestones</p>
+                    </div>
+
+                    <div class="relative border-l-2 border-brandBlue/40 ml-4 md:ml-32 space-y-12">
+                        <!-- Milestone 1 -->
+                        <div class="relative pl-8 md:pl-12 group">
+                            <div class="absolute -left-3 top-1.5 w-6 h-6 rounded-full bg-brandRed border-4 border-brandDark group-hover:scale-125 transition-transform"></div>
+                            <span class="text-sm font-bold text-brandRed">2001</span>
+                            <h3 class="text-xl font-bold text-white mt-1">Company Founded</h3>
+                            <p class="text-gray-400 text-sm mt-2">Started as a boutique commercial renovation team in Chicago with 10 dedicated engineers.</p>
+                        </div>
+
+                        <!-- Milestone 2 -->
+                        <div class="relative pl-8 md:pl-12 group">
+                            <div class="absolute -left-3 top-1.5 w-6 h-6 rounded-full bg-brandBlue border-4 border-brandDark group-hover:scale-125 transition-transform"></div>
+                            <span class="text-sm font-bold text-brandBlue">2012</span>
+                            <h3 class="text-xl font-bold text-white mt-1">National Expansion</h3>
+                            <p class="text-gray-400 text-sm mt-2">Expanded operations across 12 states, delivering mega industrial complexes and high-rises.</p>
+                        </div>
+
+                        <!-- Milestone 3 -->
+                        <div class="relative pl-8 md:pl-12 group">
+                            <div class="absolute -left-3 top-1.5 w-6 h-6 rounded-full bg-brandRed border-4 border-brandDark group-hover:scale-125 transition-transform"></div>
+                            <span class="text-sm font-bold text-brandRed">2024</span>
+                            <h3 class="text-xl font-bold text-white mt-1">Green Building Pioneer</h3>
+                            <p class="text-gray-400 text-sm mt-2">Achieved 100% net-zero carbon standard option on all new architectural design contracts.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Executive Leadership Team -->
+            <section class="py-20 bg-brandDark">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-2xl mx-auto mb-16">
+                        <h2 class="text-xs font-bold uppercase tracking-widest text-brandBlue mb-2">Leadership</h2>
+                        <p class="text-3xl font-extrabold text-white">Meet Our Key Executives</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Team Member 1 -->
+                        <div class="bg-brandDark-card rounded-2xl overflow-hidden border border-gray-800 hover:border-brandRed transition duration-300 group">
+                            <div class="h-72 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=600&q=80" alt="CEO" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            </div>
+                            <div class="p-6 text-center">
+                                <h3 class="text-xl font-bold text-white">Robert Sterling</h3>
+                                <p class="text-xs font-semibold text-brandRed uppercase tracking-wider mt-1">Chief Executive Officer</p>
+                                <p class="text-gray-400 text-xs mt-3">25+ years in civil engineering and strategic structural oversight.</p>
+                                <div class="flex justify-center space-x-3 mt-4 text-gray-400">
+                                    <a href="#" class="hover:text-brandBlue"><i class="fa-brands fa-linkedin text-lg"></i></a>
+                                    <a href="#" class="hover:text-brandRed"><i class="fa-solid fa-envelope text-lg"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Team Member 2 -->
+                        <div class="bg-brandDark-card rounded-2xl overflow-hidden border border-gray-800 hover:border-brandBlue transition duration-300 group">
+                            <div class="h-72 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80" alt="VP of Operations" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            </div>
+                            <div class="p-6 text-center">
+                                <h3 class="text-xl font-bold text-white">Elena Rostova</h3>
+                                <p class="text-xs font-semibold text-brandBlue uppercase tracking-wider mt-1">VP of Operations</p>
+                                <p class="text-gray-400 text-xs mt-3">Specialist in heavy logistics, crane safety, and site operations.</p>
+                                <div class="flex justify-center space-x-3 mt-4 text-gray-400">
+                                    <a href="#" class="hover:text-brandBlue"><i class="fa-brands fa-linkedin text-lg"></i></a>
+                                    <a href="#" class="hover:text-brandRed"><i class="fa-solid fa-envelope text-lg"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Team Member 3 -->
+                        <div class="bg-brandDark-card rounded-2xl overflow-hidden border border-gray-800 hover:border-brandRed transition duration-300 group">
+                            <div class="h-72 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=600&q=80" alt="Chief Architect" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            </div>
+                            <div class="p-6 text-center">
+                                <h3 class="text-xl font-bold text-white">David Chen</h3>
+                                <p class="text-xs font-semibold text-brandRed uppercase tracking-wider mt-1">Chief Architect</p>
+                                <p class="text-gray-400 text-xs mt-3">Pioneer in BIM modelling, eco-structures, and smart building facades.</p>
+                                <div class="flex justify-center space-x-3 mt-4 text-gray-400">
+                                    <a href="#" class="hover:text-brandBlue"><i class="fa-brands fa-linkedin text-lg"></i></a>
+                                    <a href="#" class="hover:text-brandRed"><i class="fa-solid fa-envelope text-lg"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- ============================================== -->
+        <!-- CONTACT PAGE SECTION                           -->
+        <!-- ============================================== -->
+        <div id="page-contact" class="page-section">
+            
+            <!-- Contact Header -->
+            <section class="py-16 bg-brandDark-surface border-b border-gray-800">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <h1 class="text-4xl font-black text-white mb-3">Get in <span class="text-brandBlue">Touch</span></h1>
+                    <p class="text-gray-400 max-w-xl mx-auto text-sm">Ready to start your next landmark project? Contact our engineering team for inquiries or formal RFPs.</p>
+                </div>
+            </section>
+
+            <!-- Emergency Hotline Banner -->
+            <div class="bg-gradient-to-r from-brandRed-dark via-brandRed to-brandRed-dark py-4 text-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-center sm:text-left gap-2">
+                    <div class="flex items-center space-x-3">
+                        <i class="fa-solid fa-phone-volume text-xl animate-bounce"></i>
+                        <span class="font-bold text-sm sm:text-base">24/7 Site Emergency & Support Hotline:</span>
+                    </div>
+                    <a href="tel:18005552739" class="font-black text-lg bg-white text-brandRed px-4 py-1 rounded-lg hover:bg-gray-100 transition-colors">
+                        +1 (800) 555-APEX
+                    </a>
+                </div>
+            </div>
+
+            <section class="py-20 bg-brandDark">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                        
+                        <!-- Contact Form -->
+                        <div class="bg-brandDark-card p-8 rounded-2xl border border-gray-800 shadow-2xl">
+                            <h3 class="text-2xl font-bold text-white mb-6">Send Us a Message</h3>
+                            
+                            <form id="contactForm" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-300 mb-1">Full Name *</label>
+                                        <input type="text" required placeholder="John Doe" class="w-full bg-brandDark border border-gray-700 rounded-lg p-3 text-sm text-white focus:border-brandRed focus:outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-300 mb-1">Email Address *</label>
+                                        <input type="email" required placeholder="john@company.com" class="w-full bg-brandDark border border-gray-700 rounded-lg p-3 text-sm text-white focus:border-brandRed focus:outline-none">
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-300 mb-1">Phone Number</label>
+                                        <input type="tel" placeholder="+1 (555) 000-0000" class="w-full bg-brandDark border border-gray-700 rounded-lg p-3 text-sm text-white focus:border-brandRed focus:outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-300 mb-1">Project Type</label>
+                                        <select class="w-full bg-brandDark border border-gray-700 rounded-lg p-3 text-sm text-white focus:border-brandRed focus:outline-none">
+                                            <option>Commercial Construction</option>
+                                            <option>Residential Development</option>
+                                            <option>Industrial Plant</option>
+                                            <option>Renovation & Retrofit</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-300 mb-1">Attach Blueprint / Spec PDF (Optional)</label>
+                                    <input type="file" class="w-full bg-brandDark border border-gray-700 rounded-lg p-2.5 text-xs text-gray-400 file:mr-4 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-brandBlue file:text-white hover:file:bg-brandBlue-dark">
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-300 mb-1">Project Description *</label>
+                                    <textarea required rows="4" placeholder="Detail project timeline, location, and key technical specifications..." class="w-full bg-brandDark border border-gray-700 rounded-lg p-3 text-sm text-white focus:border-brandRed focus:outline-none"></textarea>
+                                </div>
+
+                                <button type="submit" class="w-full py-3.5 bg-brandRed hover:bg-brandRed-dark text-white font-bold rounded-lg shadow-lg shadow-brandRed/30 transition duration-200">
+                                    Submit Consultation Request
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Office Contact Info & Custom Styled Map Layout -->
+                        <div class="space-y-8">
+                            <div class="bg-brandDark-card p-8 rounded-2xl border border-gray-800 space-y-6">
+                                <h3 class="text-2xl font-bold text-white">Headquarters Office</h3>
+                                
+                                <div class="space-y-4 text-sm text-gray-300">
+                                    <div class="flex items-start space-x-4">
+                                        <div class="w-10 h-10 rounded-lg bg-brandRed/10 text-brandRed flex items-center justify-center shrink-0">
+                                            <i class="fa-solid fa-location-dot"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="font-bold text-white">Address</h5>
+                                            <p class="text-gray-400">750 Industry Boulevard, Suite 1200<br>Chicago, IL 60601, United States</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start space-x-4">
+                                        <div class="w-10 h-10 rounded-lg bg-brandBlue/10 text-brandBlue flex items-center justify-center shrink-0">
+                                            <i class="fa-solid fa-envelope"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="font-bold text-white">Email Us</h5>
+                                            <p class="text-gray-400">contact@apexprimeconstruct.com</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start space-x-4">
+                                        <div class="w-10 h-10 rounded-lg bg-brandRed/10 text-brandRed flex items-center justify-center shrink-0">
+                                            <i class="fa-solid fa-clock"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="font-bold text-white">Operating Hours</h5>
+                                            <p class="text-gray-400">Mon - Fri: 7:00 AM - 6:00 PM CST<br>Sat: 8:00 AM - 1:00 PM CST</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Styled Map UI Vector Box -->
+                            <div class="bg-brandDark-card h-64 rounded-2xl border border-gray-800 relative overflow-hidden flex items-center justify-center group">
+                                <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=800&q=80" alt="Map View" class="w-full h-full object-cover filter contrast-125 brightness-50 group-hover:scale-105 transition duration-500">
+                                <div class="absolute inset-0 bg-brandBlue/10"></div>
+                                <div class="absolute p-4 rounded-xl glass-panel text-center">
+                                    <i class="fa-solid fa-location-dot text-brandRed text-3xl animate-bounce mb-1"></i>
+                                    <p class="text-white font-bold text-sm">Apex Prime Headquarters</p>
+                                    <p class="text-xs text-gray-300">Chicago, IL HQ</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-brandDark-surface border-t border-gray-800 pt-16 pb-8 text-gray-400">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+                <!-- Col 1 -->
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-9 h-9 bg-brandRed rounded-lg flex items-center justify-center text-white">
+                            <i class="fa-solid fa-helmet-safety"></i>
+                        </div>
+                        <span class="text-lg font-extrabold text-white">APEX<span class="text-brandRed">PRIME</span></span>
+                    </div>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Leading the heavy construction and architectural innovation sector with safety, integrity, and top-grade engineering.
+                    </p>
+                </div>
+
+                <!-- Col 2 -->
+                <div>
+                    <h4 class="text-white font-bold text-sm mb-4 border-l-2 border-brandRed pl-2">Quick Links</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><button onclick="navigateTo('home')" class="hover:text-white transition">Home</button></li>
+                        <li><button onclick="navigateTo('about')" class="hover:text-white transition">About Us</button></li>
+                        <li><button onclick="navigateTo('home', 'services-section')" class="hover:text-white transition">Services</button></li>
+                        <li><button onclick="navigateTo('home', 'projects-section')" class="hover:text-white transition">Projects</button></li>
+                        <li><button onclick="navigateTo('contact')" class="hover:text-white transition">Contact Us</button></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3 -->
+                <div>
+                    <h4 class="text-white font-bold text-sm mb-4 border-l-2 border-brandBlue pl-2">Services</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#" class="hover:text-white transition">General Contracting</a></li>
+                        <li><a href="#" class="hover:text-white transition">Commercial Sky Towers</a></li>
+                        <li><a href="#" class="hover:text-white transition">Industrial Logistics Terminals</a></li>
+                        <li><a href="#" class="hover:text-white transition">3D BIM Architecture</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4 -->
+                <div>
+                    <h4 class="text-white font-bold text-sm mb-4 border-l-2 border-brandRed pl-2">Newsletter</h4>
+                    <p class="text-xs text-gray-400 mb-3">Subscribe for industry insights and project updates.</p>
+                    <form onsubmit="event.preventDefault(); showToast('Subscribed successfully!');" class="flex gap-2">
+                        <input type="email" required placeholder="Enter email" class="bg-brandDark border border-gray-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none w-full">
+                        <button type="submit" class="bg-brandRed text-white px-3 py-2 rounded-lg text-xs font-bold hover:bg-brandRed-dark transition">Join</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-6 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-500">
+                <p>&copy; 2026 Apex Prime Construction Inc. All rights reserved.</p>
+                <div class="flex space-x-4 mt-4 sm:mt-0">
+                    <a href="#" class="hover:text-gray-300">Privacy Policy</a>
+                    <a href="#" class="hover:text-gray-300">Terms of Service</a>
+                    <a href="#" class="hover:text-gray-300">Safety Standards</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL: FREE QUOTE ESTIMATOR REQUEST -->
+    <div id="quoteModal" class="fixed inset-0 z-50 hidden modal-blur bg-black/70 flex items-center justify-center p-4">
+        <div class="bg-brandDark-card border border-gray-800 rounded-2xl w-full max-w-lg p-6 shadow-2xl relative animate-in fade-in zoom-in duration-200">
+            <button onclick="closeQuoteModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-2xl font-bold text-white mb-2">Request Free Quote</h3>
+            <p class="text-xs text-gray-400 mb-6">Fill out your details to receive a detailed engineering estimate.</p>
+            
+            <form onsubmit="handleQuoteSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Your Name</label>
+                    <input type="text" required placeholder="Full Name" class="w-full bg-brandDark border border-gray-700 rounded-lg p-2.5 text-sm text-white focus:border-brandRed focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Email</label>
+                    <input type="email" required placeholder="name@company.com" class="w-full bg-brandDark border border-gray-700 rounded-lg p-2.5 text-sm text-white focus:border-brandRed focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Estimated Budget Range</label>
+                    <select class="w-full bg-brandDark border border-gray-700 rounded-lg p-2.5 text-sm text-white focus:border-brandRed focus:outline-none">
+                        <option>$100k - $500k</option>
+                        <option>$500k - $2M</option>
+                        <option>$2M - $10M+</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full py-3 bg-brandRed hover:bg-brandRed-dark text-white font-bold rounded-lg text-sm transition">
+                    Submit Proposal Request
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: PROJECT DETAILS SHOWCASE -->
+    <div id="projectModal" class="fixed inset-0 z-50 hidden modal-blur bg-black/80 flex items-center justify-center p-4">
+        <div class="bg-brandDark-card border border-gray-800 rounded-2xl w-full max-w-2xl p-6 shadow-2xl relative">
+            <button onclick="closeProjectModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl z-10">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="projectModalContent" class="space-y-4">
+                <!-- Dynamically populated via JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION BOX -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 hidden bg-brandBlue text-white px-6 py-3 rounded-xl shadow-2xl items-center space-x-3 transition-all duration-300">
+        <i class="fa-solid fa-circle-check text-xl text-green-400"></i>
+        <span id="toastMsg" class="text-sm font-semibold">Success!</span>
+    </div>
+
+    <!-- JAVASCRIPT APP LOGIC -->
+    <script>
+        // SPA NAVIGATION SYSTEM
+        function navigateTo(pageId, scrollToId = null) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page-section');
+            pages.forEach(page => {
+                page.classList.remove('active-page');
+            });
+
+            // Show selected page
+            const targetPage = document.getElementById(`page-${pageId}`);
+            if (targetPage) {
+                targetPage.classList.add('active-page');
+            }
+
+            // Update active state in nav bar
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('text-brandRed', 'border-brandRed');
+                link.classList.add('text-gray-300', 'border-transparent');
+            });
+
+            const activeNav = document.getElementById(`nav-${pageId}`);
+            if (activeNav) {
+                activeNav.classList.remove('text-gray-300', 'border-transparent');
+                activeNav.classList.add('text-brandRed', 'border-brandRed');
+            }
+
+            // Scroll to top or specific element
+            if (scrollToId) {
+                setTimeout(() => {
+                    const elem = document.getElementById(scrollToId);
+                    if (elem) elem.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // MOBILE MENU TOGGLE
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const icon = document.getElementById('menuIcon');
+            menu.classList.toggle('hidden');
+            if (menu.classList.contains('hidden')) {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            }
+        }
+
+        // PROJECT FILTERING FUNCTIONALITY
+        function filterProjects(category) {
+            const items = document.querySelectorAll('.project-item');
+            const btns = document.querySelectorAll('.project-filter-btn');
+
+            btns.forEach(btn => {
+                btn.classList.remove('bg-brandRed', 'text-white');
+                btn.classList.add('bg-brandDark-card', 'text-gray-400');
+            });
+
+            event.target.classList.remove('bg-brandDark-card', 'text-gray-400');
+            event.target.classList.add('bg-brandRed', 'text-white');
+
+            items.forEach(item => {
+                if (category === 'all' || item.classList.contains(category)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // ESTIMATOR CALCULATOR LOGIC
+        function calculateEstimate() {
+            const rate = parseFloat(document.getElementById('calcType').value);
+            const area = parseInt(document.getElementById('calcArea').value);
+            document.getElementById('areaVal').innerText = `${area.toLocaleString()} sq ft`;
+            
+            const total = rate * area;
+            document.getElementById('calcTotal').innerText = `$${total.toLocaleString()}`;
+        }
+
+        // MODAL HANDLERS
+        function openQuoteModal() {
+            document.getElementById('quoteModal').classList.remove('hidden');
+        }
+        function closeQuoteModal() {
+            document.getElementById('quoteModal').classList.add('hidden');
+        }
+
+        function openProjectModal(title, category, imgSrc, description) {
+            const modalContent = document.getElementById('projectModalContent');
+            modalContent.innerHTML = `
+                <img src="${imgSrc}" class="w-full h-64 object-cover rounded-xl mb-4" alt="${title}">
+                <span class="text-xs font-bold text-brandRed uppercase tracking-wider">${category}</span>
+                <h3 class="text-2xl font-bold text-white">${title}</h3>
+                <p class="text-gray-300 text-sm leading-relaxed">${description}</p>
+                <div class="pt-4 flex justify-end">
+                    <button onclick="closeProjectModal()" class="px-5 py-2 rounded-lg bg-brandBlue text-white font-bold text-xs hover:bg-brandBlue-dark">Close Preview</button>
+                </div>
+            `;
+            document.getElementById('projectModal').classList.remove('hidden');
+        }
+        function closeProjectModal() {
+            document.getElementById('projectModal').classList.add('hidden');
+        }
+
+        // TOAST NOTIFICATION UTILITY
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            toast.classList.remove('hidden');
+            toast.classList.add('flex');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+                toast.classList.remove('flex');
+            }, 3500);
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            showToast("Message Sent! Our team will contact you shortly.");
+            e.target.reset();
+        }
+
+        function handleQuoteSubmit(e) {
+            e.preventDefault();
+            closeQuoteModal();
+            showToast("Quote request received! An engineer will review your specs.");
+            e.target.reset();
+        }
+
+        // INTERSECTION OBSERVER FOR SCROLL REVEAL & COUNTERS
+        document.addEventListener('DOMContentLoaded', () => {
+            calculateEstimate();
+
+            // Intersection Observer for scroll animations
+            const observerOptions = {
+                threshold: 0.15
+            };
+
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        
+                        // Trigger counter animation if inside stats section
+                        if (entry.target.querySelector('.counter-number')) {
+                            const counters = entry.target.querySelectorAll('.counter-number');
+                            counters.forEach(counter => {
+                                const target = +counter.getAttribute('data-target');
+                                let count = 0;
+                                const speed = target / 50;
+                                const updateCount = () => {
+                                    count += speed;
+                                    if (count < target) {
+                                        counter.innerText = Math.ceil(count);
+                                        setTimeout(updateCount, 25);
+                                    } else {
+                                        counter.innerText = target;
+                                    }
+                                };
+                                updateCount();
+                            });
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+        });
+    </script>
+</body>
+</html>
